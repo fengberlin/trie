@@ -14,7 +14,7 @@ func New() *Tree {
 // Get retrieves a value for key.
 func (tr *Tree) Get(key Key) *Node {
 	n := tr.root
-	for label := range key.Iterate() {
+	for label := range key.Iterate(context.TODO()) {
 		n = n.Get(label)
 		if n == nil {
 			return nil
@@ -26,7 +26,7 @@ func (tr *Tree) Get(key Key) *Node {
 // Put stores a pair of key and value.
 func (tr *Tree) Put(key Key, value interface{}) *Node {
 	n := tr.root
-	for label := range key.Iterate() {
+	for label := range key.Iterate(context.TODO()) {
 		var f bool
 		n, f = n.Dig(label)
 		if f {

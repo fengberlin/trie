@@ -49,7 +49,7 @@ func (mt *MatchTree) nextNode(node *Node, l Label) *Node {
 // MatchAll matches text and return all matched data.I
 func (mt *MatchTree) MatchAll(key Key, matches []Match) []Match {
 	m := mt.Matcher()
-	for l := range key.Iterate() {
+	for l := range key.Iterate(context.TODO()) {
 		matches = m.Next(l, matches)
 	}
 	return matches

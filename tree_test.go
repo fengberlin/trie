@@ -90,9 +90,12 @@ func TestTree_nc(t *testing.T) {
 }
 
 func TestNode_cc(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	f := func(key Key, cc int) {
 		n := new(Node)
-		for l := range key.Iterate() {
+		for l := range key.Iterate(ctx) {
 			n.Dig(l)
 		}
 		if !assert.Equal(t, n.cc, cc, "runes: %q", key) {
@@ -134,14 +137,19 @@ func collectRunes2(n *Node, max int) []rune {
 }
 
 func TestNode_Balance(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	n := new(Node)
-	for l := range StringKey("123456789ABCDEF").Iterate() {
+	for l := range StringKey("123456789ABCDEF").Iterate(ctx) {
 		n.Dig(l)
 	}
 	n.Balance()
-	if n.Child == nil {
-		t.Fatal("Child shoud not be nil after balancing")
+
+	if !assert.NotNil(t, n.Child, "Child shoud not be nil after balancing") {
+		return
 	}
+
 	r1 := collectRunes1(n.Child, n.cc)
 	if !assert.Equal(t, "84C26AE13579BDF", string(r1), "should be balanced") {
 		return
