@@ -20,9 +20,6 @@ type Node struct {
 	cc    int // count of children.
 }
 
-// NodeProc provides procedure for nodes.
-type NodeProc func(*Node) bool
-
 // Match is matched data.
 type Match struct {
 	Value interface{}
