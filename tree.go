@@ -65,6 +65,18 @@ func (tr *Tree) Iterate(ctx context.Context) <-chan *Node {
 	return ch
 }
 
+func (tr *Tree) NodeCount() int {
+	return tr.nc
+}
+
+func (n *Node) ChildCount() int {
+	return n.cc
+}
+
+func (n *Node) Label() Label {
+	return n.label
+}
+
 // Get finds a child node which Label matches r.
 func (n *Node) Get(l Label) *Node {
 	n = n.Child
